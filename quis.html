@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Interativo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .feedback {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="question"></div>
+        <div id="options"></div>
+        <div id="feedback" class="feedback"></div>
+        <button id="reload" style="display: none;">Recarregar Pergunta</button>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "Quem foi o primeiro presidente dos EUA?",
+                options: ["George Washington", "Abraham Lincoln", "Thomas Jefferson", "John Adams"],
+                answer: "George Washington"
+            },
+            {
+                question: "Qual é o maior oceano do mundo?",
+                options: ["Atlântico", "Índico", "Ártico", "Pacífico"],
+                answer: "Pacífico"
+            },
+            {
+                question: "Em que ano foi a Revolução Francesa?",
+                options: ["1789", "1776", "1799", "1804"],
+                answer: "1789"
+            },
+            {
+                question: "Quem pintou a Mona Lisa?",
+                options: ["Leonardo da Vinci", "Vincent van Gogh", "Pablo Picasso", "Claude Monet"],
+                answer: "Leonardo da Vinci"
+            },
+            {
+                question: "De onde é a incençâo do chuveiro eletrico?",
+                options: ["franca","Inglaterra","Brasil","Itália"],
+                answer: "Brasil"
+            }
+        ];
+
+        function getRandomQuestion() {
+            const index = Math.floor(Math.random() * questions.length);
+            return questions[index];
+        }
+
+        function displayQuestion() {
+            const question = getRandomQuestion();
+            const questionElement = document.getElementById('question');
+            const optionsElement = document.getElementById('options');
+            const feedbackElement = document.getElementById('feedback');
+            const reloadButton = document.getElementById('reload');
+
+            questionElement.innerText = question.question;
+            optionsElement.innerHTML = '';
+
+            question.options.forEach(option => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.onclick = function() {
+                    if (option === question.answer) {
+                        feedbackElement.innerText = 'Acertou!!!';
+                    } else {
+                        feedbackElement.innerText = `Resposta incorreta. A resposta correta é: ${question.answer}`;
+                    }
+                    reloadButton.style.display = 'inline-block';
+                };
+                optionsElement.appendChild(button);
+            });
+
+            feedbackElement.innerText = '';
+            reloadButton.style.display = 'none';
+        }
+
+        document.getElementById('reload').onclick = function() {
+            displayQuestion();
+        };
+
+        displayQuestion();
+    </script>
+</body>
+</html>
